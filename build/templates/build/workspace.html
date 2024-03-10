@@ -1,0 +1,139 @@
+{%extends "dashboard/nav.html"%}
+
+{%block content%}
+<style type="text/css">
+  
+            #editor {
+                /*display: block;*/
+                width: 100%;
+                height: 100%;
+                border-radius: 7px;
+                font-size: 3vh;
+            }
+       
+
+  /* Uncomment these lines for flexbox layout (recommended) */
+  #wrkspce {
+    display: flex;
+    min-height: 85vh;
+    width: 95vw;
+    gap: 5px;
+    padding-top: 4vh;
+    margin-left: 4vh;
+  }
+  
+  #rsrce, #cde {
+    flex: ;  /* Makes iframes share remaining space equally */
+  }
+
+  /* OR, use the following styles for inline-flex layout */
+  
+  iframe{
+    width: 100%;  /* Removed - this makes them stack */
+    height: 100%;
+  }
+  #cde{
+    display: inline-flex;  /* Use for inline-flex layout */
+    margin-left: 4vh;
+    width: 98%;
+    height: 80vh;
+    border: 1px solid white; /* Adjusted border style */
+    border-radius: 7px;
+	}
+  #rsrce{
+    display: inline-flex;  /* Use for inline-flex layout */
+    margin-left: 4vh;
+    width: 75%;
+    height: 80vh;
+    border: 1px solid white; /* Adjusted border style */
+    border-radius: 7px;
+  }
+  
+  #output{
+  	margin-left: 8vh;
+    width: 94%;
+    min-height: 20vh;
+    border: 1px solid white; /* Adjusted border style */
+    border-radius: 7px;
+  }
+  .out{
+  	background-color: rgb(25, 25, 25);
+  	padding-top: 1vh;
+  	padding-left: 1vh;
+  	height: 6vh;
+  	width: 100%;
+  	border-radius: 7px 7px 0px 0px;
+    display: block;
+  }
+  #but{
+    display: flex;
+    justify-content: center;
+    padding-top: 2vh;
+    padding-bottom: 3vh;
+    margin-left: -21vh;
+    font-size: 6vh;
+    gap: 20px;
+  }
+  button{
+  }
+  #ou{
+    padding-top: 1vh;
+    padding-left: 1vh;
+    font: monospace;
+  }
+  form{
+    height: 100%;
+    width: 100%;
+  }
+
+</style>
+ <form action="execute_code/" method="post">
+     {% csrf_token %}
+<div id="wrkspce">  <iframe src="https://docs.python.org/3/" id="rsrce"></iframe>      
+  
+  <div id="cde">
+  
+    <div id="editor"><input type="text" name="codearea">{{code}}</input></div>
+  </div>
+</div>
+
+<div id = "but"><button id="run" type="submit" class="btn btn-outline-success btn-lg">RUN</button>
+</form>
+<button id="save" class="btn btn-outline-light btn-lg">SAVE</button></div>
+<div id="output">
+	<div class="out">Output:</div>
+  <div id= "ou">{{output}}</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.6/ace.js"></script>
+    <script >let editor = ace.edit("editor", {
+        theme: "ace/theme/cobalt",
+        mode: "ace/mode/python",
+        enableAutoIndent: true,
+        copyWithEmptySelection: true
+    });</script>
+<!---
+<script type="text/javascript">
+  function getCodeFromEditor() {
+        return editor.getValue();
+    }
+
+    // Example of how to use the getCodeFromEditor function
+    document.querySelector("#but").addEventListener("click", function() {
+        // Get code from editor
+        const code = getCodeFromEditor();
+        // Now you can use the 'code' variable wherever you need it
+        console.log("Code from editor:", code);
+        // Example: You might want to send this code to a server for processing
+        fetch('/submitcode', {
+             method: 'POST',
+             body: JSON.stringify({ code }),
+             headers: {
+                 'Content-Type': 'application/json'
+             }
+         }).then(response => {
+             // Handle response
+         });
+    });
+</script>
+--->
+{%endblock%}

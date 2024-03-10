@@ -1,0 +1,51 @@
+{%extends "dashboard/nav.html"%}
+{%block content%}
+<style >
+  .rec, .contd {
+  width: 80%;
+  height: 30vh;
+  border: 1px solid wheat;
+  border-radius: 5px;
+  padding-top: 1vh;
+  padding-left: 1vh;
+  padding-bottom: 1vh;/* Added margin to create space between borders */
+  margin-left:20vh ;
+  margin-right: 2vh;
+  margin-top: 2vh;
+  background-image: linear-gradient(to right, blue, teal);
+
+}
+.contd{
+  background-image: linear-gradient(to right, red, yellow);
+
+}
+.wilkommen{
+	width: 80%;
+  height: 30vh;
+  border-radius: 5px;
+  padding-top: 1vh;
+  padding-left: 2vh;
+  padding-bottom: 1vh;
+  margin-left:20vh ;
+  margin-right: 2vh;
+  margin-top: 5vh;
+  background-image: linear-gradient(to left, blue, purple);
+  color: rgb(235, 235, 235);
+  font-size: 7vh;
+  font-family:monospace;
+}
+
+
+</style>
+<div class="total">
+<div class="wilkommen">
+	Welcome,<br> &emsp; &emsp;&emsp;[Username]!
+</div>
+<div class="rec">
+	Recommended:
+</div>
+<div class="contd">
+	Continue:
+</div>
+</div>
+{%endblock%}
