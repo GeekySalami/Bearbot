@@ -1,0 +1,28 @@
+{% extends "dashboard/nav.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style type="text/css">
+    .content-section{
+        margin: 8vh;
+        margin-right:100vh ;
+        margin-left: 10vh;
+    }
+</style>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Join Today
+                </legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">SIGN UP</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">Already have an account?<a class="ml-2" href="{% url "login" %}">Sign In</a></small>
+        </div>
+    </div>
+{% endblock content %}

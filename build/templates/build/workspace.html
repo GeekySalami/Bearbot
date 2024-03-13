@@ -1,0 +1,213 @@
+{%extends "dashboard/nav.html"%}
+{%block content%}
+{%if user.is_authenticated%}
+<style type="text/css">
+  #editor {
+    /*display: block;*/
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+    font-size: 3vh;
+  }
+
+
+  /* Uncomment these lines for flexbox layout (recommended) */
+  #wrkspce {
+    display: flex;
+    min-height: 85vh;
+    width: 95vw;
+    gap: 5px;
+    padding-top: 4vh;
+    margin-left: 4vh;
+  }
+
+  #rsrce,
+  #cde {
+    /* Makes iframes share remaining space equally */
+  }
+
+  /* OR, use the following styles for inline-flex layout */
+
+  iframe {
+    width: 100%;
+    /* Removed - this makes them stack */
+    height: 100%;
+  }
+
+  #cde {
+    display: block;
+    /* Use for inline-flex layout */
+    margin-left: 4vh;
+    width: 98%;
+    height: 60vh;
+    border: 1px solid white;
+    /* Adjusted border style */
+    border-radius: 7px;
+  }
+
+
+  #inpu{
+    display: block;
+    /* Use for inline-flex layout */
+    margin-left: 0vh;
+    width: 100%;
+    height: 20vh;
+    border: 1px solid white;
+    /* Adjusted border style */
+    border-radius: 7px;
+    margin-top: 2vh;
+  }
+  #in{
+    display: flex;
+    min-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 7px;
+
+  }
+
+  #rsrce {
+    display: inline-flex;
+    /* Use for inline-flex layout */
+    margin-left: 4vh;
+    width: 75%;
+    height: 82vh;
+    border: 1px solid white;
+    /* Adjusted border style */
+    border-radius: 7px;
+  }
+
+  #output {
+    margin-left: 8vh;
+    width: 94%;
+    min-height: 20vh;
+    border: 1px solid white;
+    /* Adjusted border style */
+    border-radius: 7px;
+  }
+
+  .out {
+    background-color: rgb(25, 25, 25);
+    padding-top: 1vh;
+    padding-left: 1vh;
+    height: 6vh;
+    width: 100%;
+    border-radius: 7px 7px 0px 0px;
+    display: block;
+  }
+
+  #but {
+    display: flex;
+    justify-content: center;
+    padding-top: 2vh;
+    padding-bottom: 3vh;
+    margin-left: -21vh;
+    font-size: 6vh;
+    gap: 20px;
+  }
+
+  button {}
+
+  #ou {
+    padding-top: 1vh;
+    padding-left: 1vh;
+    font: monospace;
+  }
+
+  form {
+    height: 100%;
+    width: 100%;
+  }
+</style>
+<!--
+<form method="post" action="{% url 'wrkspce' %}">
+  {%csrf_token%}
+-->
+<div id="wrkspce"> <iframe src="https://docs.python.org/3/" id="rsrce"></iframe>
+  <div id="cde">
+    <div id="editor"></div>
+      <!--{{form.as_div}}-->
+  <div id="inpu"><textarea name="inp" id="in" >Input here</textarea></div>
+  </div>
+
+</div>
+<div id="but"><button id="run" onclick="runCode()" class="btn btn-outline-success btn-lg">RUN</button>
+<!--</form>-->
+
+<button id="save" class="btn btn-outline-light btn-lg">SAVE</button></div>
+<div id="output">
+  <div class="out">Output:</div>
+  <div id="ou"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.6/ace.js"></script>
+<script>let editor = ace.edit("editor", {
+    theme: "ace/theme/cobalt",
+    mode: "ace/mode/python",
+    enableAutoIndent: true,
+    copyWithEmptySelection: true
+  });</script>
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script type="text/javascript">
+  function getCodeFromEditor() {
+        return editor.getValue();
+    }
+  function getInput(){
+
+    return document.getElementById('in').value;
+  }
+
+         function runCode() {
+            var code = editor.getValue();
+            var input = getInput();
+
+            console.log(input);
+            console.log(code)
+
+            csrftoken  = "{{csrf_token}}"
+            // Make an AJAX request to the Django server for code execution
+            $.ajax({
+                type: "POST",
+                url: "{% url 'runcode'%}", // URL of your Django view
+                headers: {
+                    'X-CSRFToken': csrftoken  // Include CSRF token in the request header
+                },
+                data: {
+                    code: code,
+                    input: input,
+                    language: 'python' // Fixed to Python
+                },
+                success: function(data) {
+                    
+                        document.getElementById("ou").innerText = data.result;
+                    
+                },
+                error: function() {
+                    document.getElementById("ou").innerText = "Error communicating with the server.";
+                }
+            });
+        };
+</script>
+{%else%}
+<style type="text/css">
+   #pls {
+    display: flex;
+    justify-content: center;
+    border-radius: 7px;
+    border: 1px rgb(230, 230, 230, 1.0);
+  }
+
+  .link-body-emphasis {
+    border-radius: inherit; /* Inherit border-radius from #pls */
+    text-decoration: underline; /* Remove underlining if not desired */
+    text-align: center; /* Center text within the link */
+    align-items: center;
+    margin-top: 40vh;
+    
+  }
+</style>
+<div id="pls"><a href="{%url 'login'%}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"> Log In to continue.</a></div>
+{%endif%}
+{%endblock%}

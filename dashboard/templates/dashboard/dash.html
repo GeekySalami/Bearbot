@@ -1,0 +1,72 @@
+{%extends "dashboard/nav.html"%}
+{%block content%}
+{%if user.is_authenticated%}
+<style >
+  .rec, .contd {
+  width: 80%;
+  height: 30vh;
+  border: 1px solid wheat;
+  border-radius: 5px;
+  padding-top: 1vh;
+  padding-left: 1vh;
+  padding-bottom: 1vh;/* Added margin to create space between borders */
+  margin-left:20vh ;
+  margin-right: 2vh;
+  margin-top: 2vh;
+  background-image: linear-gradient(to right, blue, teal);
+
+}
+.contd{
+  background-image: linear-gradient(to right, red, yellow);
+
+}
+.wilkommen{
+	width: 80%;
+  height: 30vh;
+  border-radius: 5px;
+  padding-top: 1vh;
+  padding-left: 2vh;
+  padding-bottom: 1vh;
+  margin-left:20vh ;
+  margin-right: 2vh;
+  margin-top: 5vh;
+  background-image: linear-gradient(to left, blue, purple);
+  color: rgb(235, 235, 235);
+  font-size: 7vh;
+  font-family:monospace;
+}
+
+
+</style>
+<div class="total">
+<div class="wilkommen">
+	Welcome,<br> &emsp; &emsp;&emsp;{{user.username}}!
+</div>
+<div class="rec">
+	Recommended:
+</div>
+<div class="contd">
+	Continue:
+</div>
+</div>
+{%else%}
+<style type="text/css">
+   #pls {
+    display: flex;
+    justify-content: center;
+    border-radius: 7px;
+    border: 1px rgb(230, 230, 230, 1.0);
+  }
+
+  .link-body-emphasis {
+    border-radius: inherit; /* Inherit border-radius from #pls */
+    text-decoration: underline; /* Remove underlining if not desired */
+    text-align: center; /* Center text within the link */
+    align-items: center;
+    margin-top: 40vh;
+    
+  }
+</style>
+<div id="pls"><a href="{%url 'login'%}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"> Log In to continue.</a></div>
+{%endif%}
+{%endblock%}

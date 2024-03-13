@@ -1,0 +1,19 @@
+{% extends "dashboard/nav.html" %}
+
+{% block content %}
+<style type="text/css">
+    #ggs, h2{
+        margin-top: 8vh;
+        margin-bottom: 2vh;
+        margin-right:100vh ;
+        margin-left: 10vh;
+    }
+
+</style>
+    <h2>You Have Been Logged Out</h2>
+        
+    <div id= "ggs"class="border-top pt-3">
+        <small class="text-muted">Log in again? &nbsp;<a class="ml-2" href="{% url "login" %}">log In</a></small>
+    </div>
+    
+{% endblock content %}
