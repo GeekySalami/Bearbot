@@ -3,7 +3,8 @@ from .models import Post
 from .forms import PostCreationForm
 # Create your views here.
 def blg(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-date_posted')
+
     if request.method == 'POST':
         form = PostCreationForm(request.POST)
         if form.is_valid():

@@ -2,6 +2,7 @@
 {%load static%}
 {%load crispy_forms_tags%}
 {% block content %}
+{%if user.is_authenticated%}
 <style type="text/css">
   #gha{
   margin: 5vh;
@@ -72,11 +73,14 @@
     font-size: 2.5rem;
   }
 
-  textarea{
+  #id_title{
+    height: 5vh;
+  }
+  #id_content{
     height: 20vh;
   }
-button{
-  margin-top: 4vh;
+#but{
+  margin-top: 3vh;
 }
 
 
@@ -89,7 +93,7 @@ button{
           {{forms|crispy}}
         </div>
         <div id="button" class="d-md-flex justify-content-sm-end" ">
-        <button type=" submit" class="btn btn-outline-light btn-sm"> Create!</button>
+        <button id="but" type=" submit" class="btn btn-outline-light btn-sm"> Create!</button>
       </div>
   </form>
       </article>
@@ -105,5 +109,24 @@ button{
         </div>
       </article>
 {% endfor %}
+{%else%}
+<style type="text/css">
+   #pls {
+    display: flex;
+    justify-content: center;
+    border-radius: 7px;
+    border: 1px rgb(230, 230, 230, 1.0);
+  }
 
+  .link-body-emphasis {
+    border-radius: inherit; 
+    text-decoration: underline; 
+    text-align: center; 
+    align-items: center;
+    margin-top: 40vh;
+    
+  }
+</style>
+<div id="pls"><a href="{%url 'login'%}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"> Log In to continue.</a></div>
+{%endif%}
 {% endblock content %}

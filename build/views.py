@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import subprocess
 
+
 def wrkspace(request):
     return render(request, 'build/workspace.html')
 
@@ -18,27 +19,27 @@ def run_code(request):
 
             input_data = input_data.replace("\n"," ").split(" ")
 
-            language = request.POST['language']  # Assuming client specifies language
+            language = request.POST['language']  
         except KeyError:
             return JsonResponse({'error': 'Missing required data (code, input, language)'}, status=400)
 
-        # Validate and sanitize user-provided code and input (crucial for security)
+        
         for i in input_data:
             print({code}," ", {i})
 
-        # Execute code in a secure subprocess (prevents code injection attacks)
+        
         #orig_stdout = None
         try:
             input_bytes = "\n".join(input_data).encode()
 
-            # Create a subprocess to execute the code
+            
             process = subprocess.Popen(['python3', '-c', code], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-            # Pass the input to the subprocess
+            
             #output, error = process.communicate(input=input_bytes)
             process.stdin.write(input_bytes)
             process.stdin.close()
-            # Get the output from the subprocess
+            
             output = process.stdout.read()
             output = output.decode()
 

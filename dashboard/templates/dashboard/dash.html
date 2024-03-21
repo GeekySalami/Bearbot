@@ -4,14 +4,14 @@
 <style >
   .rec, .contd {
   width: 80%;
-  height: 30vh;
+  height: 35vh;
   border: 1px solid wheat;
   border-radius: 5px;
   padding-top: 1vh;
   padding-left: 1vh;
   padding-bottom: 1vh;/* Added margin to create space between borders */
-  margin-left:20vh ;
-  margin-right: 2vh;
+  margin-left:15vh ;
+  margin-right: -5vh;
   margin-top: 2vh;
   background-image: linear-gradient(to right, blue, teal);
 
@@ -27,23 +27,49 @@
   padding-top: 1vh;
   padding-left: 2vh;
   padding-bottom: 1vh;
-  margin-left:20vh ;
-  margin-right: 2vh;
+  margin-left:15vh ;
+  margin-right: -5vh;
   margin-top: 5vh;
   background-image: linear-gradient(to left, blue, purple);
   color: rgb(235, 235, 235);
   font-size: 7vh;
   font-family:monospace;
+  display: flex;
+  flex-wrap: nowrap ;
+}
+.playlist-card {
+    display: inline-block; 
+    margin-right: 10px; 
+    margin-top: 5px;
+    margin-left: 4vh; 
+  }
+  .playlist-card img {
+  width: 32vh; 
+  object-fit: cover; 
+  border-radius: 7px;
+  box-shadow: 0px 0px 5px rgb(0, 0, 0, 1.0);
+  margin-top: 2vh;
 }
 
-
+.playlist-card :hover {
+    transform: scale(1.1); /* Increase size by 10% on hover */
+    transition: transform 0.5s ease-in-out; /* Smooth transition */
+  }
 </style>
 <div class="total">
 <div class="wilkommen">
-	Welcome,<br> &emsp; &emsp;&emsp;{{user.username}}!
+	&nbsp;Welcome,<br> &emsp; &emsp;&emsp;{{user.username}}!
 </div>
 <div class="rec">
-	Recommended:
+	Recommended:<br>
+  {%for p in plist%}
+   <div class="playlist-card">
+    <a href="https://www.youtube.com/playlist?list={{p.id}}">
+      <img src="{{p.thumbnail_url}}" alt="{{plist.title}}">
+    </a>
+    <p>{{p.title}}</p>
+  </div>
+  {%endfor%}
 </div>
 <div class="contd">
 	Continue:
@@ -59,9 +85,9 @@
   }
 
   .link-body-emphasis {
-    border-radius: inherit; /* Inherit border-radius from #pls */
-    text-decoration: underline; /* Remove underlining if not desired */
-    text-align: center; /* Center text within the link */
+    border-radius: inherit; 
+    text-decoration: underline; 
+    text-align: center; 
     align-items: center;
     margin-top: 40vh;
     

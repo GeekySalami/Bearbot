@@ -1,6 +1,7 @@
 from django.db import models
 import sys
 
+'''
 class Code(models.Model):
     
     try:
@@ -15,3 +16,4 @@ class Code(models.Model):
             sys.stdout.close()
             sys.stdout=orig_stdout
             output = e
+'''

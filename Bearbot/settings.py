@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'resource_viewer.apps.ResourceViewerConfig',
     'text_editor.apps.TextEditorConfig',
     'build.apps.BuildConfig',
+    'ytvids.apps.YtvidsConfig'
 ]
 
 MIDDLEWARE = [
@@ -128,6 +129,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MEDIA_URL ='/media/'
 
 # Default primary key field type
@@ -144,4 +146,6 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login' 
 
 GOOGLE_API_KEY = 'AIzaSyBxmOeg_wm7NAkTfr9Fv3iWSMTyk7VEWRI'
+API_SERVICE_NAME = 'youtube'
+API_VERSION = 'v3'
 
