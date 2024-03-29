@@ -7,7 +7,7 @@ import googleapiclient.discovery
 import googleapiclient.errors
 
 def format_title(title):
-	if len(title)>10:
+	if len(title)>20:
 		return f'{title[0:20]}...'
 	else:
 		return title
@@ -15,7 +15,6 @@ def format_title(title):
 class Youtube:
 	def __init__(self, *args, **kwargs):
 		self.vidid = kwargs.get('vid_id')
-
 		self.api_service_name = settings.API_SERVICE_NAME
 		self.api_version = settings.API_VERSION
 		self.dev_key = settings.GOOGLE_API_KEY

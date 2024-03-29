@@ -176,6 +176,10 @@
                 }
             });
         };
+function rep(){
+  console.log(editor.getValue())
+}
+editor.getSession().on('change',rep);
 </script>
 {%else%}
 <style type="text/css">

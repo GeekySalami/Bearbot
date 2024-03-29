@@ -29,6 +29,7 @@ urlpatterns = [
     #path('', include('users.urls')),
     #path('', include('text_editor.urls')),
     path('', include('blog.urls')),
+    path('', include('learn.urls')),
     #path('', include('resource_viewer.urls')),
     path('workspace/', include('build.urls')),
     path('profile/', users_view.profile, name ='profile'),

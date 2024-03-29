@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'resource_viewer.apps.ResourceViewerConfig',
     'text_editor.apps.TextEditorConfig',
     'build.apps.BuildConfig',
-    'ytvids.apps.YtvidsConfig'
+    'ytvids.apps.YtvidsConfig',
+    'learn.apps.LearnConfig'
 ]
 
 MIDDLEWARE = [
