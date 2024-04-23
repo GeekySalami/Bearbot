@@ -1,9 +1,8 @@
 from django.conf import settings
-import requests
-import json
-
 import googleapiclient.discovery
 import googleapiclient.errors
+
+
 
 def format_title(title):
 	if len(title)>20:
@@ -24,32 +23,29 @@ class Youtube:
 			developerKey = self.dev_key
 			)
 
-
-	def get_playlist(self):
+	def get_video(self, query):
 
 		video_request = self.youtube.search().list(
 			part="snippet",
-			q="python tutorial",
-			type="playlist",
+			q=query,
+			type="video",
 			maxResults=4,
 			).execute()
 
-		playlists = []
+		videos = []
 
 		for item in video_request["items"]:
-			playlist_id = item["id"]["playlistId"]
-			playlist_details = self.youtube.playlists().list(
+			video_id = item["id"]["videoId"]
+			video_details = self.youtube.videos().list(
         	part="snippet",
-        	id=playlist_id
+        	id=video_id
     		).execute()
-			playlist_title = playlist_details["items"][0]["snippet"]["title"]
-			playlist_thumbnail_url = playlist_details["items"][0]["snippet"]["thumbnails"]["medium"]["url"]
-			playlists.append({
-				"id": playlist_id,
-				"title": format_title(playlist_title),
-				"thumbnail_url": playlist_thumbnail_url
+			video_title = video_details["items"][0]["snippet"]["title"]
+			video_thumbnail_url = video_details["items"][0]["snippet"]["thumbnails"]["medium"]["url"]
+			videos.append({
+				"id": video_id,
+				"title": format_title(video_title),
+				"thumbnail_url": video_thumbnail_url
 			})
 
-		return playlists
-
-	
+		return videos
