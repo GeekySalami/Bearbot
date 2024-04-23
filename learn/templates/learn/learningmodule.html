@@ -6,71 +6,88 @@
     /*display: block;*/
     width: 100%;
     height: 100%;
+    border: solid 2px ;
     border-radius: 7px;
     font-size: 3vh;
   }
 
-
+  .workspce{
+    display: grid;
+    grid-template-rows: 30vw 15vw ;
+    grid-template-columns: 50vw 45vw;
+    gap: 2vw;
+    margin-left: 2%;
+    margin-top: 2%;
+  }
   
-  #wrkspce {
-    display: flex;
-    min-height: 85vh;
-    width: 95vw;
-    gap: 5px;
-    padding-top: 4vh;
-    margin-left: 4vh;
-  }
-
-  #rsrce,
-  #cde {
-  }
-
-
-  iframe {
-    width: 100%;
-    height: 100%;
-  }
-
-  #cde {
-    display: block;
-    margin-left: 4vh;
-    width: 98%;
-    height: 60vh;
-    border: 1px solid white;
-    border-radius: 7px;
-  }
-
-
-  #inpu{
-    display: block;
-    width: 100%;
-    height: 20vh;
-    border: 1px solid white;
-    border-radius: 7px;
-    margin-top: 2vh;
-  }
+ #inpu{
+  border: solid 2px ;
+  border-radius: 7px;
+  min-height: 100%;
+  min-width: 100%;
+ }
+ 
   #in{
     display: flex;
     min-width: 100%;
     min-height: 100%;
     max-height: 100%;
     max-width: 100%;
-    border-radius: 7px;
-
   }
 
-  #rsrce {
-    display: inline-flex;
-    margin-left: 4vh;
-    width: 75%;
-    height: 82vh;
-    border: 1px solid white;
+  #video-playback{
+    border: solid 2px ;
     border-radius: 7px;
+    min-height: 100%;
+    min-width: 100%;
+    background-image: linear-gradient(to right, blue, teal);
+    
+
+  }
+  #video-recommendations{
+    border: solid 2px ;
+    border-radius: 7px;
+    min-height: 100%;
+    min-width: 100%;
+    background-image: linear-gradient(to right, red, black);
+    display: flex; 
+    flex-direction: rows; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 1vh; 
+    
+  }
+
+  #but {
+    display: flex;
+    justify-content: center;
+    padding-top: 2vh;
+    padding-bottom: 3vh;
+    margin-left: 50%;
+    gap: 20px;
+  }
+
+
+
+  #ou {
+    padding-top: 1vh;
+    padding-left: 1vh;
+    font: monospace;
+  }
+
+  form {
+    height: 100%;
+    width: 100%;
+  }
+  img{
+    width: 11vw;
+  }
+  #playlist-card{
   }
 
   #output {
-    margin-left: 8vh;
-    width: 94%;
+    margin-left: 2%;
+    width: 97%;
     min-height: 20vh;
     border: 1px solid white;
     border-radius: 7px;
@@ -86,44 +103,60 @@
     display: block;
   }
 
-  #but {
-    display: flex;
-    justify-content: center;
-    padding-top: 2vh;
-    padding-bottom: 3vh;
-    margin-left: -21vh;
-    gap: 20px;
-  }
-
-  button {}
-
   #ou {
     padding-top: 1vh;
     padding-left: 1vh;
     font: monospace;
   }
 
-  form {
-    height: 100%;
+  iframe{
     width: 100%;
+    height: 100%;
   }
 </style>
-<!--
-<form method="post" action="{% url 'wrkspce' %}">
-  {%csrf_token%}
--->
-<div id="wrkspce"> <iframe src="https://docs.python.org/3/" id="rsrce"></iframe>
-  <div id="cde">
+
+<div class = 'workspce'>
+
+    <div id='video-playback'>
+      <iframe src="" frameborder="0" id="rsceview"></iframe>
+    
+    </div>
+    
     <div id="editor"></div>
-      <!--{{form.as_div}}-->
-  <div id="inpu"><textarea name="inp" id="in" >Input here</textarea></div>
-  </div>
+
+    <div id='video-recommendations'>
+    
+      
+    {%for v in vids%}
+    <div id="playlist-card">
+      <a href="#" onclick="return embe('{{ v.id }}')"><img src="{{v.thumbnail_url}}" alt="" id="joy" ></a>
+    <p>{{v.title}}</p>
+    <script>
+      
+    </script>
+    </div>
+    {%endfor%}
+    <script>
+      function embe(videoId) {
+        document.getElementById("rsceview").src = "https://www.youtube.com/embed/" + videoId;
+        return false; 
+    }
+    </script>
+    </div>
+
+    <div id="inpu"><textarea name="inp" id="in" >Input here</textarea></div>
+
 
 </div>
+
+
 <div id="but"><button id="run" onclick="runCode()" class="btn btn-outline-success btn-lg">RUN</button>
 <!--</form>-->
+<button id="save" class="btn btn-outline-light btn-lg">SAVE</button>
+<button id="generator" class="btn btn-outline-light btn-lg"> Refresh</button>
+<button id="run" onclick="docu()" class="btn btn-outline-light btn-lg">DOCS</button>
 
-<button id="save" class="btn btn-outline-light btn-lg">SAVE</button></div>
+</div>
 <div id="output">
   <div class="out">Output:</div>
   <div id="ou"></div>
@@ -176,10 +209,74 @@
                 }
             });
         };
-function rep(){
-  console.log(editor.getValue())
+
+        async function rep() {
+        var a = editor.getValue();
+        console.log(a);
+        
+        try {
+            const csrftoken = "{{csrf_token}}"; 
+            const response = await fetch("{% url 'sugg' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({ cde: a })
+            });
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            const data = await response.json();
+            updateVideos(data.vids);           
+            
+        } catch (error) {
+            console.error("There was a problem with the fetch operation:", error);
+        }
+    }
+    function updateVideos(videos) {
+    const videosContainer = document.getElementById('video-recommendations');
+    videosContainer.innerHTML = ''; 
+    
+    videos.forEach(video => {
+      const videoDiv = document.createElement('div'); 
+      videosContainer.appendChild(videoDiv);
+  
+      const img = document.createElement('img');
+      img.id = "thumb";
+      img.src = video.thumbnail_url;
+  
+      
+      const videoLink = document.createElement('a');
+      videoLink.href = 'javascript:void(0);'; 
+      videoLink.onclick = function () {
+            document.querySelector('#video-playback iframe').src = 'https://www.youtube.com/embed/' + video.id;
+        };
+      
+      videoLink.appendChild(img);
+      videoDiv.appendChild(videoLink);
+  
+      const title = document.createElement('p');
+      title.textContent = video.title;
+      videoDiv.appendChild(title); 
+    });
 }
-editor.getSession().on('change',rep);
+    document.getElementById('generator').addEventListener("click", rep);
+
+    const vi = document.getElementById("joy")
+    vi.href  = 'javascript:void(0);'; 
+    vi.onclick = function () {
+            document.querySelector('#video-playback iframe').src = 'https://www.youtube.com/embed/' + video.id;
+        };
+
+  function docu() {
+    document.getElementById("rsceview").src = "https://docs.python.org/3/";
+  }
+ 
+  
+
 </script>
 {%else%}
 <style type="text/css">

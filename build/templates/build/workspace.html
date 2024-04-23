@@ -108,20 +108,17 @@
     width: 100%;
   }
 </style>
-<!--
-<form method="post" action="{% url 'wrkspce' %}">
-  {%csrf_token%}
--->
+
 <div id="wrkspce"> <iframe src="https://docs.python.org/3/" id="rsrce"></iframe>
   <div id="cde">
     <div id="editor"></div>
-      <!--{{form.as_div}}-->
+      
   <div id="inpu"><textarea name="inp" id="in" >Input here</textarea></div>
   </div>
 
 </div>
 <div id="but"><button id="run" onclick="runCode()" class="btn btn-outline-success btn-lg">RUN</button>
-<!--</form>-->
+
 
 <button id="save" class="btn btn-outline-light btn-lg">SAVE</button></div>
 <div id="output">
